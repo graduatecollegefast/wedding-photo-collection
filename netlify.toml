@@ -5,6 +5,9 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # These are identifiers, not secrets. Real secrets (Airtable token, Cloudinary API secret,
+  # password hash, session secret) stay covered by Netlify's secrets scan.
+  SECRETS_SCAN_OMIT_KEYS = "EVENT_SLUG,AIRTABLE_BASE_ID,AIRTABLE_EVENTS_TABLE_ID,AIRTABLE_UPLOADS_TABLE_ID,CLOUDINARY_CLOUD_NAME,CLOUDINARY_API_KEY"
 
 [functions]
   node_bundler = "esbuild"

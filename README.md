@@ -57,7 +57,7 @@ Couple
 |---|---|
 | Airtable workspace | The Digital Comeback |
 | Airtable base | Wedding Photo Collection |
-| Event record | Event ID `friend-wedding-2026`, name `Shaun & Shatoya`, slug `shaun-and-shatoya` |
+| Event record | One record in the Events table; its Event Slug is the guest link |
 | Cloudinary folder | `wedding-events/friend-wedding-2026/originals/` |
 | GitHub | `graduatecollegefast/wedding-photo-collection` |
 | Netlify team | The Digital Comeback |
@@ -153,7 +153,7 @@ Netlify → Site configuration → **Environment variables**. Mark the secret on
 | `CLOUDINARY_API_SECRET` | yes | From Cloudinary |
 | `DASHBOARD_PASSWORD_HASH` | yes | `npm run hash-password -- "password"` |
 | `SESSION_SECRET` | yes | Long random string |
-| `EVENT_SLUG` | no | `shaun-and-shatoya` |
+| `EVENT_SLUG` | no | The Event Slug from the Events table |
 | `MAX_IMAGE_MB` / `MAX_VIDEO_MB` | no | Optional, default 10 / 100 |
 | `EVENT_TIMEZONE` | no | Optional, default `America/Chicago` (when "today" rolls over for expiry) |
 | `VITE_UPLOAD_CONCURRENCY` | no | Optional, default 3 (needs a redeploy) |
