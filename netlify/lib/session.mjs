@@ -59,15 +59,18 @@ export function requireSession(req) {
   return session;
 }
 
-// Password hash format: scrypt$<salt base64url>$<hash base64url>  (made by scripts/hash-password.mjs)
+// Password hash format: scrypt:<salt base64url>:<hash base64url>  (made by scripts/hash-password.mjs)
+// Uses ":" because "$" gets eaten by .env imports. The older "$" form is still accepted.
 export function hashPassword(password, salt = crypto.randomBytes(16)) {
   const hash = crypto.scryptSync(password, salt, 64, { N: 16384, r: 8, p: 1 });
-  return `scrypt$${b64(salt)}$${b64(hash)}`;
+  return `scrypt:${b64(salt)}:${b64(hash)}`;
 }
 
 export function verifyPassword(password, stored) {
-  if (typeof password !== 'string' || !password || typeof stored !== 'string') return false;
-  const [scheme, saltB64, hashB64] = stored.split('$');
+  if (typeof password !== 'string' || typeof stored !== 'string') return false;
+  password = password.trim(); // copy-paste often adds a trailing space
+  if (!password) return false;
+  const [scheme, saltB64, hashB64] = stored.trim().replace(/^["']|["']$/g, '').split(/[$:]/);
   if (scheme !== 'scrypt' || !saltB64 || !hashB64) return false;
   const expected = Buffer.from(hashB64, 'base64url');
   const actual = crypto.scryptSync(password, Buffer.from(saltB64, 'base64url'), expected.length, { N: 16384, r: 8, p: 1 });

@@ -144,7 +144,10 @@ test('archive link is signed and lists each file', () => {
 
 test('passwords hash and verify', () => {
   const h = hashPassword('a long password');
-  assert.ok(h.startsWith('scrypt$'));
+  assert.ok(h.startsWith('scrypt:'));
+  assert.ok(!h.includes('$'));
+  assert.equal(verifyPassword(' a long password ', h), true);
+  assert.equal(verifyPassword('a long password', h.replace(/:/g, '$')), true);
   assert.equal(verifyPassword('a long password', h), true);
   assert.equal(verifyPassword('wrong password', h), false);
 });
