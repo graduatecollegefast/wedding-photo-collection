@@ -7,7 +7,28 @@ import { config } from '../lib/config.mjs';
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+const CODE_VERSION = 'login-v2';
+
+// GET returns a non-secret health check of the password setting (shape and lengths only),
+// so a broken DASHBOARD_PASSWORD_HASH can be diagnosed without exposing it.
+function hashHealth(stored) {
+  const raw = typeof stored === 'string' ? stored : '';
+  const cleaned = raw.trim().replace(/^["']|["']$/g, '');
+  const parts = cleaned.split(/[$:]/);
+  return {
+    codeVersion: CODE_VERSION,
+    present: raw.length > 0,
+    length: raw.length,
+    hasOuterSpaceOrQuotes: raw !== cleaned,
+    scheme: parts[0] === 'scrypt' ? 'scrypt' : 'other',
+    parts: parts.length,
+    saltChars: (parts[1] || '').length, // expected 22
+    hashChars: (parts[2] || '').length, // expected 86
+  };
+}
+
 export default handler('dashboard-login', async (req) => {
+  if (req.method === 'GET') return json({ ok: true, check: hashHealth(config().dashboard.passwordHash) });
   requireMethod(req, 'POST');
   ensureConfigured(['DASHBOARD_PASSWORD_HASH', 'SESSION_SECRET', 'EVENT_SLUG']);
   const { password } = await readJson(req, 2000);
