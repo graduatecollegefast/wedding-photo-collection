@@ -56,12 +56,10 @@ Couple
 | Item | Value |
 |---|---|
 | Airtable workspace | The Digital Comeback |
-| Airtable base | Wedding Photo Collection (`appWUCtXnfGmXn7ge`) |
-| Events table | `tblKfxFGXSLWCoI1M` |
-| Uploads table | `tblGE73G9mFbpldSB` |
-| Event record | Event ID `friend-wedding-2026`, slug `jordan-and-taylor` |
+| Airtable base | Wedding Photo Collection |
+| Event record | Event ID `friend-wedding-2026`, name `Shaun & Shatoya`, slug `shaun-and-shatoya` |
 | Cloudinary folder | `wedding-events/friend-wedding-2026/originals/` |
-| GitHub | `graduatecollegefast/wedding-photo-collection` (private) |
+| GitHub | `graduatecollegefast/wedding-photo-collection` |
 | Netlify team | The Digital Comeback |
 
 ---
@@ -147,15 +145,15 @@ Netlify → Site configuration → **Environment variables**. Mark the secret on
 | Name | Secret? | Value |
 |---|---|---|
 | `AIRTABLE_ACCESS_TOKEN` | yes | Token from section 3 |
-| `AIRTABLE_BASE_ID` | no | `appWUCtXnfGmXn7ge` |
-| `AIRTABLE_EVENTS_TABLE_ID` | no | `tblKfxFGXSLWCoI1M` |
-| `AIRTABLE_UPLOADS_TABLE_ID` | no | `tblGE73G9mFbpldSB` |
+| `AIRTABLE_BASE_ID` | yes | Base ID (starts with `app`), from the base's API docs or URL |
+| `AIRTABLE_EVENTS_TABLE_ID` | yes | Events table ID (starts with `tbl`), from the table URL |
+| `AIRTABLE_UPLOADS_TABLE_ID` | yes | Uploads table ID (starts with `tbl`), from the table URL |
 | `CLOUDINARY_CLOUD_NAME` | no | From Cloudinary |
 | `CLOUDINARY_API_KEY` | no | From Cloudinary |
 | `CLOUDINARY_API_SECRET` | yes | From Cloudinary |
 | `DASHBOARD_PASSWORD_HASH` | yes | `npm run hash-password -- "password"` |
 | `SESSION_SECRET` | yes | Long random string |
-| `EVENT_SLUG` | no | `jordan-and-taylor` |
+| `EVENT_SLUG` | no | `shaun-and-shatoya` |
 | `MAX_IMAGE_MB` / `MAX_VIDEO_MB` | no | Optional, default 10 / 100 |
 | `EVENT_TIMEZONE` | no | Optional, default `America/Chicago` (when "today" rolls over for expiry) |
 | `VITE_UPLOAD_CONCURRENCY` | no | Optional, default 3 (needs a redeploy) |
