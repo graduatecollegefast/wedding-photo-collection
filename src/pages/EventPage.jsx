@@ -9,6 +9,7 @@ import SuccessScreen from '../components/SuccessScreen.jsx';
 import { validateFile, acceptAttribute } from '../utils/fileValidation.js';
 import { EVENT_STATUS_MESSAGES } from '../utils/errors.js';
 import { formatDate } from '../utils/format.js';
+import { Heart, HeartTrio, HeartDivider } from '../components/Hearts.jsx';
 
 function daysBetween(a, b) {
   if (!a || !b) return null;
@@ -84,11 +85,12 @@ function Hero({ event }) {
         </div>
       ) : (
         <div className="cover cover-plain" aria-hidden="true">
-          <span className="ornament">❦</span>
+          <HeartTrio size={30} />
         </div>
       )}
       <h1 className="names">{event.name}</h1>
       {event.weddingDate && <p className="date">{formatDate(event.weddingDate)}</p>}
+      <HeartDivider />
       {event.headline && <p className="headline">“{event.headline}”</p>}
       {event.welcomeMessage && <p className="welcome">{event.welcomeMessage}</p>}
     </header>
@@ -133,7 +135,7 @@ function ActiveEvent({ event, slug }) {
       {effectivePhase === 'pick' && (
         <section className="start" aria-label="Add photos">
           <UploadButton accept={accept} onFiles={onFiles}>
-            Add your {what}
+            <Heart size={18} color="currentColor" /> Add your {what}
           </UploadButton>
           <p className="muted">No app or account needed.</p>
           <p className="fine-print">
@@ -215,6 +217,7 @@ function ActiveEvent({ event, slug }) {
 function MiniHeader({ event }) {
   return (
     <header className="mini-header">
+      <Heart size={16} />
       <p className="mini-names">{event.name}</p>
       {event.weddingDate && <p className="mini-date">{formatDate(event.weddingDate)}</p>}
     </header>

@@ -6,6 +6,7 @@ import Gallery from '../components/Gallery.jsx';
 import DownloadPanel from '../components/DownloadPanel.jsx';
 import SettingsPanel from '../components/SettingsPanel.jsx';
 import { formatDate } from '../utils/format.js';
+import { Heart } from '../components/Hearts.jsx';
 
 export default function Dashboard() {
   const auth = useDashboardAuth();
@@ -53,7 +54,9 @@ export default function Dashboard() {
     <main className="dash">
       <header className="dash-header">
         <div>
-          <h1 className="names dash-names">{event.name}</h1>
+          <h1 className="names dash-names">
+            {event.name} <Heart size={26} className="title-heart" />
+          </h1>
           <p className="date">{formatDate(event.weddingDate)}</p>
         </div>
         <button type="button" className="btn btn-link" onClick={auth.logout}>

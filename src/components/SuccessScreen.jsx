@@ -1,4 +1,5 @@
 import React from 'react';
+import { HeartTrio } from './Hearts.jsx';
 
 export default function SuccessScreen({ count, photos, videos, eventName, guestName, onMore, onDone }) {
   const what =
@@ -6,7 +7,7 @@ export default function SuccessScreen({ count, photos, videos, eventName, guestN
   const first = guestName ? guestName.split(' ')[0] : '';
   return (
     <section className="card success" role="status" aria-live="polite">
-      <p className="success-mark" aria-hidden="true">♥</p>
+      <p className="success-mark"><HeartTrio size={34} /></p>
       <h2 className="success-title">Memories added!</h2>
       {first && <p className="success-thanks">Thanks, {first}!</p>}
       <p>

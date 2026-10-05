@@ -39,7 +39,7 @@ function eventFor(slug) {
   if (!status) return null;
   if (status === 'draft') return { slug, status };
   return {
-    slug, status, name: 'Jordan & Taylor', weddingDate: '2026-10-17', expirationDate: '2027-01-15',
+    slug, status, name: 'Shaun & Shatoya', weddingDate: '2026-10-10', expirationDate: '2027-01-08',
     headline: 'Help us remember the day through your eyes.', welcomeMessage: '', coverImageUrl: '',
     allowPhotos: true, allowVideos: true, maxFilesPerUpload: 50, limits: { maxImageMB: 10, maxVideoMB: 100 },
   };
