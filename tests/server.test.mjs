@@ -27,6 +27,8 @@ const dashboardEvent = (await import('../netlify/functions/dashboard-event.mjs')
 const dashboardMedia = (await import('../netlify/functions/dashboard-media.mjs')).default;
 const hideMedia = (await import('../netlify/functions/hide-media.mjs')).default;
 const prepareDownload = (await import('../netlify/functions/prepare-download.mjs')).default;
+const coverSignature = (await import('../netlify/functions/cover-signature.mjs')).default;
+const setCover = (await import('../netlify/functions/set-cover.mjs')).default;
 
 // ---------- Fake Airtable ----------
 const db = { tblEvents: [], tblUploads: [] };
@@ -322,4 +324,34 @@ test('dashboard: counts, paginated media, hide, and download links', async () =>
   assert.equal(dl.totals.photos, 53); // 54 photos minus the hidden one
   assert.equal(dl.totals.videos, 6);
   assert.equal(dl.parts.filter((p) => p.type === 'image').length, 2);
+});
+
+test('couple photo: signed into the cover folder, saved as a display URL, removable', async () => {
+  seedEvent('cover-event');
+  const cookie = `wp_session=${createSessionToken({ sub: 'couple', eventSlug: 'cover-event' })}`;
+  assert.equal((await coverSignature(post('cover-signature', {}))).status, 401);
+
+  const sig = await (await coverSignature(post('cover-signature', {}, { cookie }))).json();
+  assert.equal(sig.upload.params.folder, 'wedding-events/evt-cover-event/cover');
+  assert.match(sig.upload.url, /\/image\/upload$/);
+  assert.equal(sig.upload.signature, signParams(sig.upload.params));
+
+  const public_id = 'wedding-events/evt-cover-event/cover/us';
+  const version = 1760000001;
+  const good = { public_id, version, signature: signParams({ public_id, version }), resource_type: 'image', format: 'jpg' };
+  const res = await (await setCover(post('set-cover', { result: good }, { cookie }))).json();
+  assert.match(res.coverImageUrl, /c_fill,g_auto,w_1200,h_900,q_auto,f_auto\/v1760000001\/wedding-events\/evt-cover-event\/cover\/us$/);
+  const ev = db.tblEvents.find((e) => e.fields['Event Slug'] === 'cover-event');
+  assert.equal(ev.fields['Cover Image URL'], res.coverImageUrl);
+  const pub = await (await getEvent(req('get-event?slug=cover-event'))).json();
+  assert.equal(pub.event.coverImageUrl, res.coverImageUrl);
+
+  // A guest upload (originals folder) can't be used as the cover.
+  const guestPid = 'wedding-events/evt-cover-event/originals/x';
+  const bad = { public_id: guestPid, version, signature: signParams({ public_id: guestPid, version }), resource_type: 'image' };
+  assert.equal((await setCover(post('set-cover', { result: bad }, { cookie }))).status, 400);
+
+  const removed = await (await setCover(post('set-cover', { remove: true }, { cookie }))).json();
+  assert.equal(removed.coverImageUrl, '');
+  assert.equal(ev.fields['Cover Image URL'], null);
 });

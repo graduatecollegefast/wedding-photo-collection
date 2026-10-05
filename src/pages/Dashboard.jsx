@@ -86,7 +86,7 @@ export default function Dashboard() {
 
       {view === 'gallery' && <Gallery onChanged={auth.refresh} onUnauthorized={onUnauthorized} />}
       {view === 'download' && <DownloadPanel onUnauthorized={onUnauthorized} />}
-      {view === 'settings' && <SettingsPanel event={event} />}
+      {view === 'settings' && <SettingsPanel event={event} onChanged={auth.refresh} onUnauthorized={onUnauthorized} />}
     </main>
   );
 }

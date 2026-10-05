@@ -83,6 +83,16 @@ export function allowedFormats(event) {
   return [...(event.allowPhotos ? IMAGE_FORMATS : []), ...(event.allowVideos ? VIDEO_FORMATS : [])];
 }
 
+export function clearEventCache(slug) {
+  cache.delete(slug);
+}
+
+// Folder for the couple's own photo, kept apart from guest uploads so it never
+// shows up in the gallery, counts or downloads.
+export function coverFolder(event) {
+  return `wedding-events/${event.eventId}/cover`;
+}
+
 export function storageFolder(event) {
   // Predictable per-event folder. Future SaaS: wedding-events/<customer>/<event>/originals
   return `wedding-events/${event.eventId}/originals`;

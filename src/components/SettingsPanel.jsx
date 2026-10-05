@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { formatDate } from '../utils/format.js';
+import CoverPhotoPanel from './CoverPhotoPanel.jsx';
 
 // Read-only event settings plus the guest QR code. Settings are changed in Airtable (see README).
-export default function SettingsPanel({ event }) {
+export default function SettingsPanel({ event, onChanged, onUnauthorized }) {
   const guestUrl = `${window.location.origin}/event/${event.slug}`;
   const canvasRef = useRef(null);
   const [qrReady, setQrReady] = useState(false);
@@ -42,6 +43,8 @@ export default function SettingsPanel({ event }) {
   return (
     <section className="card panel" aria-labelledby="settings-title">
       <h2 id="settings-title" className="section-title">Event settings</h2>
+
+      <CoverPhotoPanel event={event} onChanged={onChanged} onUnauthorized={onUnauthorized} />
 
       <div className="qr-block">
         <canvas ref={canvasRef} className="qr" aria-label={`QR code for ${guestUrl}`} role="img" />

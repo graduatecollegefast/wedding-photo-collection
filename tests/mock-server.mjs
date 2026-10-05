@@ -13,6 +13,7 @@ const PORT = Number(process.env.PORT || 4599);
 export const stats = { cloudinary: {}, registered: {}, regAttempts: {} };
 let authed = false;
 let hidden = new Set();
+let cover = '';
 
 const EVENTS = {
   'jordan-and-taylor': 'active',
@@ -40,7 +41,7 @@ function eventFor(slug) {
   if (status === 'draft') return { slug, status };
   return {
     slug, status, name: 'Shaun & Shatoya', weddingDate: '2026-10-10', expirationDate: '2027-01-08',
-    headline: 'Help us remember the day through your eyes.', welcomeMessage: '', coverImageUrl: '',
+    headline: 'Help us remember the day through your eyes.', welcomeMessage: '', coverImageUrl: cover,
     allowPhotos: true, allowVideos: true, maxFilesPerUpload: 50, limits: { maxImageMB: 10, maxVideoMB: 100 },
   };
 }
@@ -113,6 +114,14 @@ const server = http.createServer(async (req, res) => {
       if (body.hidden) hidden.add(body.uploadId);
       else hidden.delete(body.uploadId);
       return send(res, 200, { ok: true });
+    }
+    if (fn === 'cover-signature') {
+      return send(res, 200, { ok: true, upload: { url: '/mock-cloudinary', apiKey: '1', signature: 'sig', params: { timestamp: 1, folder: 'cover' }, expiresAt: Date.now() + 3e6 } });
+    }
+    if (fn === 'set-cover') {
+      const body = JSON.parse((await readBody(req)).toString());
+      cover = body.remove ? '' : '/mock-img/7.svg';
+      return send(res, 200, { ok: true, coverImageUrl: cover });
     }
     if (fn === 'prepare-download') {
       return send(res, 200, { ok: true, totals: { photos: 57, videos: 7 }, parts: [{ type: 'image', label: 'Photos — part 1 of 2', count: 40, url: '#' }, { type: 'image', label: 'Photos — part 2 of 2', count: 17, url: '#' }, { type: 'video', label: 'Videos — part 1 of 2', count: 4, url: '#' }, { type: 'video', label: 'Videos — part 2 of 2', count: 3, url: '#' }] });

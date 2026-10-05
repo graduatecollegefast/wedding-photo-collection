@@ -56,5 +56,8 @@ export const api = {
     return call(`dashboard-media?${q}`);
   },
   hideMedia: (uploadId, hidden = true) => call('hide-media', { method: 'POST', body: { uploadId, hidden } }),
+  coverSignature: () => call('cover-signature', { method: 'POST' }),
+  setCover: (result) => call('set-cover', { method: 'POST', body: { result } }),
+  removeCover: () => call('set-cover', { method: 'POST', body: { remove: true } }),
   prepareDownload: () => call('prepare-download', { method: 'POST', timeoutMs: 30000 }),
 };

@@ -23,6 +23,7 @@ export default handler('dashboard-event', async (req) => {
       expirationDate: event.expirationDate,
       status: effectiveStatus(event),
       headline: event.headline,
+      coverImageUrl: event.coverImageUrl,
       allowPhotos: event.allowPhotos,
       allowVideos: event.allowVideos,
       maxFilesPerUpload: event.maxFilesPerUpload,

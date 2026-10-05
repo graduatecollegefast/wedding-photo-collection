@@ -299,3 +299,9 @@ p { margin: 0 0 0.6em; }
 .video-badge { background: rgba(74, 34, 102, 0.85); }
 .qr { border-color: var(--silver); }
 .dash-header .btn-link { white-space: nowrap; }
+
+/* Couple photo in Event settings */
+.cover-panel { margin: 1rem 0 1.6rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--border); }
+.cover-preview { aspect-ratio: 4 / 3; max-width: 360px; border-radius: 14px; overflow: hidden; background: var(--silver-light); display: flex; align-items: center; justify-content: center; padding: 0; }
+.cover-preview img { width: 100%; height: 100%; object-fit: cover; }
+.cover-preview p { padding: 1rem; text-align: center; margin: 0; }
