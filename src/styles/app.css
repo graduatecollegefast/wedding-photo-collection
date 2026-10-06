@@ -235,7 +235,7 @@ p { margin: 0 0 0.6em; }
 /* Settings */
 .qr-block { display: grid; gap: 1.2rem; align-items: center; margin: 1rem 0 1.4rem; }
 @media (min-width: 640px) { .qr-block { grid-template-columns: 220px 1fr; } }
-.qr { width: 220px; height: 220px; border-radius: 12px; border: 1px solid var(--border); background: #fff; }
+.qr { width: 220px !important; height: 220px !important; border-radius: 12px; border: 1px solid var(--border); background: #fff; }
 .guest-url { font-weight: 600; overflow-wrap: anywhere; }
 .settings-list { margin: 0 0 1rem; display: grid; gap: 0; }
 .settings-list > div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.6rem 0; border-top: 1px solid var(--border); }
